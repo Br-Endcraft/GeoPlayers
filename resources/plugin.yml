@@ -1,0 +1,5 @@
+name: GeoPlayers
+main: me.jonasxpx.geoplayers.GeoPlayers
+version: 1.0
+commands:
+    geo:
