@@ -21,6 +21,9 @@ public abstract class GeoAPI {
 	
 	public static void registerPlayerGeo(String name, RegionCodes region){
 		System.out.println("[GeoPlayers] capturado: " + name + " de " + region.getName());
+		if(GeoPlayers.players.containsKey(name)){
+			GeoPlayers.players.remove(name);
+		}
 		GeoPlayers.players.put(name, region);
 	}
 	public static String getTotal(){
