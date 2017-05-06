@@ -1,6 +1,8 @@
 package me.jonasxpx.geoplayers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
@@ -14,11 +16,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class GeoPlayers extends JavaPlugin{
 
 	protected static Map<String, RegionCodes> players;
-	
+	protected static List<RegionCodes> blocked;
+	public static GeoPlayers instance;
 	
 	@Override
 	public void onEnable() {
+		instance = this;
 		players = new HashMap<>();
+		blocked = new ArrayList<RegionCodes>();
 		for(Player p : getServer().getOnlinePlayers())
 		{
 			new Thread(new RegisterGeoPlayer(p.getName(), p.getAddress().getAddress().getHostAddress())).start();
@@ -34,12 +39,20 @@ public class GeoPlayers extends JavaPlugin{
 			public void onQuit(PlayerQuitEvent e){
 				players.remove(e.getPlayer().getName());
 			}
+			@EventHandler
+			public void onRegister(PlayerRegistredEvent e){
+				if(blocked.contains(e.getRc())){
+					e.getPlayer().kickPlayer("§cAlgo está errado, Tente novamente mais tarde.");
+				}
+			}
 		}, this);
 		getCommand("geo").setExecutor(new Commands(this));
 	}
 	
 	@Override
 	public void onDisable() {
+		players.clear();
+		blocked.clear();
 		HandlerList.unregisterAll(this);
 	}
 

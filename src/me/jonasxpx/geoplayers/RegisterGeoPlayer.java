@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
+
 public class RegisterGeoPlayer implements Runnable{
 	
 	private final String p;
 	private final String address;
-	private static final String URL_CHECK = "http://144.217.93.236:8080/json/";
+	private static final String URL_CHECK = "http://ender.tk:8080/json/";
 	
 	public RegisterGeoPlayer(String player, String address) {
 		this.p = player;
@@ -28,7 +31,14 @@ public class RegisterGeoPlayer implements Runnable{
 			int index = sb.indexOf("country_code\":");
 			int lenght = "country_code\":".length()+1;
 			String code = sb.toString().substring(index + lenght, index + lenght + 2);
-			GeoAPI.registerPlayerGeo(p, RegionCodes.getRegionFromString(code));
+			RegionCodes rc = RegionCodes.getRegionFromString(code);
+			GeoAPI.registerPlayerGeo(p, rc);
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					GeoPlayers.instance.getServer().getPluginManager().callEvent(new PlayerRegistredEvent(Bukkit.getPlayerExact(p), rc));
+				}
+			}.runTask(GeoPlayers.instance);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
