@@ -9,7 +9,8 @@ public enum RegionCodes {
 	PT("Portugal"),
 	AR("Argentina"),
 	CH("China"),
-	AU("Australia");
+	AU("Australia"),
+	PL("Polônia");
 	private String name;
 	
 	private RegionCodes(String name) {
@@ -38,6 +39,8 @@ public enum RegionCodes {
 			return RegionCodes.CH;
 		case "AU":
 			return RegionCodes.AU;
+		case "PL":
+			return RegionCodes.PL;
 		default:
 			return RegionCodes.US;
 		}
