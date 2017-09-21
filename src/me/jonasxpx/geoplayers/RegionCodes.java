@@ -2,15 +2,16 @@ package me.jonasxpx.geoplayers;
 
 public enum RegionCodes {
 	
-	BR("Brazil"),
+	BR("Brasil"),
 	US("United States"),
 	PH("Philippines"),
 	PE("Peru"),
 	PT("Portugal"),
 	AR("Argentina"),
 	CH("China"),
-	AU("Australia"),
-	PL("Polônia");
+	AU("Austrália"),
+	PL("Polônia"),
+	AE("Emirados Árabes Unidos");
 	private String name;
 	
 	private RegionCodes(String name) {
@@ -41,6 +42,8 @@ public enum RegionCodes {
 			return RegionCodes.AU;
 		case "PL":
 			return RegionCodes.PL;
+		case "AE":
+			return RegionCodes.AE;
 		default:
 			return RegionCodes.US;
 		}
