@@ -3,6 +3,7 @@ package me.jonasxpx.geoplayers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -11,7 +12,7 @@ public class RegisterGeoPlayer implements Runnable{
 	
 	private final String p;
 	private final String address;
-	private static final String URL_CHECK = "http://ender.tk:8080/json/";
+	private static final String URL_CHECK = "http://localhost:8080/json/";
 	
 	public RegisterGeoPlayer(String player, String address) {
 		this.p = player;
@@ -22,7 +23,9 @@ public class RegisterGeoPlayer implements Runnable{
 	public void run() {
 		try {
 			URL url = new URL(URL_CHECK + address);
-			InputStream in = url.openConnection().getInputStream();
+			URLConnection uc = url.openConnection();
+			uc.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+			InputStream in = uc.getInputStream();
 			StringBuilder sb = new StringBuilder();
 			int b;
 			while((b = in.read()) != -1){
